@@ -46,9 +46,32 @@ public:
         isSurfColor(isSurfColor),isColorFirst(isColorFirst)
     {}
 
+    infoSet(double veclen,double vecthickness,
+            double boxlen,double boxthickness):
+        isrescale(false),
+        isvmf(true),isrmf(false),
+        isnnormal(false),isbinormal(false),istangent(false),
+        isrvector(true),isovector(false),
+        isVector(true),isSurface(true),
+        veclen(veclen),vecthickness(vecthickness),
+        boxlen(boxlen),boxthickness(boxthickness),
+        isshowall(true),pickid(false),
+        isSurfColor(false),isColorFirst(false)
+    {}
 
 
-
+    infoSet(int veclen,int vecthickness,
+            int boxlen,int boxthickness):
+        isrescale(false),
+        isvmf(true),isrmf(false),
+        isnnormal(false),isbinormal(false),istangent(false),
+        isrvector(true),isovector(false),
+        isVector(true),isSurface(true),
+        veclen(veclen/100.),vecthickness(vecthickness/100.),
+        boxlen(boxlen/100.),boxthickness(boxthickness/100.),
+        isshowall(true),pickid(false),
+        isSurfColor(false),isColorFirst(false)
+    {}
 
 
 
@@ -153,6 +176,12 @@ public:
         isField(isField),isNormal(isNormal),isSurface(isSurface),isWire(isWire),isSingularity(isSingularity),
         isIso(isIso),length(length),upnormal(upnormal),
         isSlice(isSlice),xyz(xyz),slicenum(slicenum),thickness(thickness),isLineMode(isLineMode)
+    {}
+
+    infoVolDisp(int length,int upnormal,double thickness,bool isLineMode = false):
+        isField(false),isNormal(true),isSurface(false),isWire(false),isSingularity(false),
+        isIso(false),length(length),upnormal(upnormal),
+        isSlice(false),xyz(0),slicenum(0),thickness(thickness),isLineMode(isLineMode)
     {}
 
 

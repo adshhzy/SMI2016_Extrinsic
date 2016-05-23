@@ -48,6 +48,12 @@ private:
     vector< unsigned long >vertices2tetr_accumulate;
     vector< uint >vertices2tetr_inverse;
 
+private:
+
+    vector< uint >edges2tetr;
+    vector< unsigned long >edges2tetr_accumulate;
+    vector< uint >edges2tetr_inverse;
+
 
 
 public:
@@ -86,6 +92,8 @@ public:
     inline uint* vtinv_end(uint v_ind){ return &(vertices2tetr_inverse[vertices2tetr_accumulate[v_ind+1]]); }
 
 
+
+
     inline uint* tv_begin(uint t_ind){ return &(tetrahedron2vertices[t_ind * 4]); }
     inline uint* tv_end(uint t_ind){ return &(tetrahedron2vertices[t_ind * 4 + 4]); }
 
@@ -106,6 +114,10 @@ public:
 
     inline double* vnor_begin(uint v_ind){ return &(vertices_normal[v_ind * 3]); }
     inline double* vnor_end(uint v_ind){ return &(vertices_normal[v_ind * 3 + 3]); }
+
+    inline uint* et_begin(uint e_ind){ return &(edges2tetr[edges2tetr_accumulate[e_ind]]); }
+    inline uint* et_end(uint e_ind){ return &(edges2tetr[edges2tetr_accumulate[e_ind+1]]); }
+    inline uint et_num(uint e_ind){ return edges2tetr_accumulate[e_ind+1]-edges2tetr_accumulate[e_ind]; }
 
 
     /********************************************************************************************/
@@ -132,6 +144,7 @@ private:
 
 
 public:
+    bool outputDisplay(string filename);
     void sparseSampling(int a);
     void BuildDisplay(infoVolDisp info);
     vector<double>* getDisplayVertices(){return &display_vertices;}
@@ -171,10 +184,19 @@ private:
 
     vector<double> vertices_ofield;
     vector<double> vertices_rofield;
+
+private:
+    vector<double>tetrsvolume;
+    vector<double>edge_cot_weight;
+    vector<double>edge_M_weight;
+    vector<double>vertices_M_weight;
+    vector<double>edge_length;
 public:
     int Initialize(string inputfile, string outputfile = string(), bool isEigenInit = true, bool isGaussIter = true);
     int SpecialCases(string outputfile = string(), bool isEigenInit = true, bool isGaussIter = true);
+
 public:
+    void ComputeEigenWeight();
     double RunGaussSeidelIteration();
     void InitializeFieldByLeastEigenV(bool isunified = true);
     void InitializeField(bool isProj = false, bool isrand = true);

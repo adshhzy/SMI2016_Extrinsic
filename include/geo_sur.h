@@ -156,6 +156,8 @@ public:
     void BuildDisplay(infoSurfDisp info);
     void GetPerFacesColorDegree(vector<double>&facedegree);
 
+    bool outputDisplay(string filename);
+
 /********************************************************************************************/
 /********************************************************************************************/
 

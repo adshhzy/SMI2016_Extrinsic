@@ -49,6 +49,8 @@ bool readOffFile(string filename,vector<double>&vertices,vector<unsigned int>&fa
 
 
 
+    reader.close();
+    return true;
 
 
 
@@ -78,10 +80,61 @@ bool writeOffFile(string filename,const vector<double>&vertices,const vector<uns
         outer << "3 " << p_fv[0]+1<< " "<< p_fv[1]+1 << " "<< p_fv[2]+1 << endl;
     }
 
+    outer.close();
+    cout<<"saving finish: "<<filename<<endl;
+    return true;
 
 }
 
+bool writePLYFile(string filename,const vector<double>&vertices,const vector<unsigned int>&faces2vertices,
+                  const vector<double>&vertices_normal,const vector<unsigned char>&vertices_color){
+    filename = filename + ".ply";
+    ofstream outer(filename.data(), ofstream::out);
+    if (!outer.good()) {
+        cout << "Can not create output PLY file " << filename << endl;
+        return false;
+    }
 
+
+    int n_vertices = vertices.size()/3;
+    int n_faces = faces2vertices.size()/3;
+    outer << "ply" <<endl;
+    outer << "format ascii 1.0"<<endl;
+    outer << "element vertex " << n_vertices <<endl;
+    outer << "property float x" <<endl;
+    outer << "property float y" <<endl;
+    outer << "property float z" <<endl;
+    outer << "property float nx" <<endl;
+    outer << "property float ny" <<endl;
+    outer << "property float nz" <<endl;
+    outer << "property uchar red" <<endl;
+    outer << "property uchar green" <<endl;
+    outer << "property uchar blue" <<endl;
+    outer << "property uchar alpha" <<endl;
+    outer << "element face " << n_faces <<endl;
+    outer << "property list uchar int vertex_indices" <<endl;
+    outer << "end_header" <<endl;
+
+    for(int i=0;i<n_vertices;++i){
+        auto p_v = vertices.data()+i*3;
+        auto p_vn = vertices_normal.data()+i*3;
+        auto p_vc = vertices_color.data()+i*4;
+        for(int j=0;j<3;++j)outer << p_v[j] << " ";
+        for(int j=0;j<3;++j)outer << p_vn[j] << " ";
+        for(int j=0;j<4;++j)outer << int(p_vc[j]) << " ";
+        outer << endl;
+    }
+
+    for(int i=0;i<n_faces;++i){
+        auto p_fv = faces2vertices.data()+i*3;
+        outer << "3 ";
+        for(int j=0;j<3;++j)outer << p_fv[j] << " ";
+        outer << endl;
+    }
+    outer.close();
+    cout<<"saving finish: "<<filename<<endl;
+    return true;
+}
 
 bool readObjFile(string filename, vector<double>&vertices, vector<unsigned int>&faces2vertices, vector<double> vertices_normal){
 
@@ -171,8 +224,8 @@ bool writeObjFile(string filename,const vector<double>&vertices,const vector<uns
 
     outer.close();
     cout<<"saving finish: "<<filename<<endl;
-
     return true;
+
 
 
 }

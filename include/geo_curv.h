@@ -119,6 +119,7 @@ public:
                       bool isSurfColor, bool isColorFirst
                       );
 
+    bool outputDisplay(string filename);
 private:
     bool load();
 public:

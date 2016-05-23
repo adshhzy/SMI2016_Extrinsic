@@ -40,12 +40,20 @@ int Surface::Initialize(string inputfile, string outputfile, bool isEigenInit, b
     if(isGaussIter)RunGaussSeidelIteration();
     ComputeVerticesFieldSingularity();
 
-    sparseSampling(3);
+    if(n_vertices<30000)sparseSampling(1);
+    else if(n_vertices<60000)sparseSampling(2);
+    else sparseSampling(3);
 
     reinitflag = true;
     isbuilddisp = false;
 
-    if(outputfile.size()!=0)SaveInterface(outputfile);
+    BuildDisplay(infoSurfDisp(true,false,true,false,
+                                          true,false,
+                                          30,30,130));
+    if(outputfile.size()!=0){
+        SaveInterface(outputfile);
+        outputDisplay(outputfile);
+    }
     return 0;
 
 
@@ -87,19 +95,17 @@ bool Surface::ReadFile(string filename){
 
 bool Surface::SaveInterface(string filename){
 
-//    string prepath,modelname,ext;
-//    SplitFileName(filename,prepath,modelname,ext);
 
-//    if(ext==".obj")saveObjFile(filename);
-//    else if(ext==".off")writeOffFile(filename,vertices,faces2vertices);
-//    else if(ext==".surf")writeSurfFile(filename,vertices,faces2vertices,vertices_field);
+    return writeSurfFile(filename,vertices,faces2vertices,vertices_field);
 
-//    return true;
-    writeSurfFile(filename,vertices,faces2vertices,vertices_field);
-    return true;
 
 }
 
+bool Surface::outputDisplay(string filename){
+
+    return writePLYFile(filename,display_vertices,display_faces,display_normal,display_vcolor);
+
+}
 void Surface::testSlicer(int thres){
 
     cout<<"thres: "<<thres<<endl;

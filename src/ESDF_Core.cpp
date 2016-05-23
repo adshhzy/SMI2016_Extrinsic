@@ -100,43 +100,6 @@ int ESDF_Core::ReadArgs(int argc,char** argv){
 }
 
 
-
-
-
-int ESDF_Core::Initialize(string filename, int inputtype){
-
-
-    SplitFileName(filename,prepath,modelname,ext);
-
-    //    if(ext==".obj" || ext==".off"){
-    //        Surf_core.Initialize(filename);
-    //        curstate = SURF;return 0;
-    //    }else if(ext==".curf"){
-    //        Curv_core.Initialize(filename);
-    //        curstate = CURV;return 0;
-    //    }else if(ext==".curf"){
-    //        Curv_core.Initialize(filename);
-    //        curstate = CURV;return 0;
-    //    }else if(ext == ".volf"){
-    //        Vol_core.Initialize(filename);
-    //        curstate = VOL;return 0;
-    //    }
-
-    if(0){
-        Surf_core.Initialize(filename);
-        curstate = SURF;
-    }else {
-        Curv_core.Initialize(filename);
-        curstate = CURV;
-    }
-    //    {
-    //        Vol_core.Initialize(filename);
-    //        curstate = VOL;
-    //    }
-    return 0;
-
-}
-
 bool ESDF_Core::clearup(){
 
     Curv_core.reset();
@@ -150,6 +113,9 @@ bool ESDF_Core::clearup(){
 void ESDF_Core::BuildDisplay(infoSurfDisp info){
 
     if(curstate == SURF)Surf_core.BuildDisplay(info);
+    else if(curstate == CURV)return Curv_core.BuildDisplay(infoSet(info.length,info.width,
+                                                                   info.length,info.upnormal));
+    else if(curstate == VOL)return Vol_core.BuildDisplay(infoVolDisp(info.length,info.upnormal,info.width));
 
 }
 
@@ -208,7 +174,7 @@ public:
     mytimer(){}
 };
 
-void positiveDefiniteLeastEigenVector(SparseMatrix<double>& A,SparseMatrix<double>& M,vector<double>&outx){
+void positiveDefiniteLeastEigenVector(SparseMatrix<double>& A,SparseMatrix<double>& M,vector<double>&outx,const int maxIter = 30){
 
     int msize = M.cols();
     VectorXd x;
@@ -222,8 +188,9 @@ void positiveDefiniteLeastEigenVector(SparseMatrix<double>& A,SparseMatrix<doubl
     //SparseQR<SparseMatrix<double>, COLAMDOrdering<int> > solver;
 
     solver.compute(A);
-    for(int i=0;i<30;++i){
-        cout<<i<<endl;
+    cout<<"MaxIter: "<<maxIter<<endl;
+    for(int i=0;i<maxIter;++i){
+        cout<<"Iter: "<<i<<endl;
         x = solver.solve(M*x);
         x /= (M*x).dot(x);
         //x/=x.norm();
@@ -240,7 +207,8 @@ void EigenInitialization(    const vector<double>&vertices_rfield,const vector<d
                              const vector<double>&edge_weight,const vector<double>&vertices_Vweight,const vector<double>&edge_Vweight,
                              const vector<uint>&edges2vertices,const vector<uint>&vertices2edges,
                              const vector<uint>&vertices2vertices, const vector< unsigned long >&vertices2edges_accumulate,
-                             vector<double>&outx
+                             vector<double>&outx,
+                             const int maxIter = 30
                              ){
 
     cout<<"EigenInitialization Begin"<<endl;
@@ -354,7 +322,7 @@ void EigenInitialization(    const vector<double>&vertices_rfield,const vector<d
     mytimer mmtt;
     mmtt.start();
 
-    positiveDefiniteLeastEigenVector(A,M,outx);
+    positiveDefiniteLeastEigenVector(A,M,outx,maxIter);
 
     mmtt.end();
 

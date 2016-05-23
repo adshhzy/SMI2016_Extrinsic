@@ -497,10 +497,11 @@ void Volume::BuildDisplay(infoVolDisp info){
             if(isfield && vertices_normal.size()!=0)constructRect4(vnor_begin(0),vvec_begin(0),red);
             if(info.isNormal && vertices_normal.size()!=0)constructRect4(vnor_begin(0),vvec_begin(0),red);
         }else{
-            if(isVMF && vertices_field.size()!=0)constructRect2(vvec_begin(0),vnor_begin(0),green);
+            if(isVMF && vertices_field.size()!=0)constructRect(vvec_begin(0),vnor_begin(0),green);
             if(isfield && vertices_field.size()!=0)constructRect(vnor_begin(0),vovec_begin(0),green);
             if(info.isNormal && vertices_normal.size()!=0)constructRect(vnor_begin(0),vvec_begin(0),green);
         }
+
 
     }else{
 
@@ -520,6 +521,9 @@ void Volume::BuildDisplay(infoVolDisp info){
         //cout<<"ccc"<<endl;
 
     }
+    //display_vertices = vertices;
+    //display_edges = edges;
+    //display_faces.clear();
     isbuilddisp = true;
 }
 

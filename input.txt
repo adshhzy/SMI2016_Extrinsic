@@ -15,7 +15,7 @@
 ./extrinsic -s 1 -o ./output/fig5_1 -e -g
 
 
-./extrinsic -i ./input/drawcurveIn.curf -o ./input/fig5_2 -g -e
+./extrinsic -i ./input/drawcurveIn.curf -o ./output/fig5_2 -g -e
 
 ./extrinsic -s 2 -o ./output/fig5_4 -e -g
 

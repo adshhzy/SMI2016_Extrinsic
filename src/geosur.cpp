@@ -556,7 +556,7 @@ double GaussSeidelIteration(const vector<double>&vertices_normal,
                             const vector<uint>&vertices2vertices, const vector< unsigned long >&vertices2edges_accumulate,
                             vector<double>&vertices_field,
                             const int maxiter = 5000
-                            );
+        );
 
 double Surface::RunGaussSeidelIteration(){
 
@@ -564,6 +564,7 @@ double Surface::RunGaussSeidelIteration(){
 
     double en_pre = GaussSeidelIteration(vertices_normal,edge_cot,edges,vertices2edges,vertices2vertices,vertices2edges_accumulate,vertices_field);
 
+    BuildOthogonalField();
 
     return en_pre;
 
@@ -575,8 +576,9 @@ void EigenInitialization(    const vector<double>&vertices_rfield,const vector<d
                              const vector<double>&edge_weight,const vector<double>&vertices_Vweight,const vector<double>&edge_Vweight,
                              const vector<uint>&edges2vertices,const vector<uint>&vertices2edges,
                              const vector<uint>&vertices2vertices, const vector< unsigned long >&vertices2edges_accumulate,
-                             vector<double>&outx
-                             );
+                             vector<double>&outx,
+                             const int maxIter = 30
+        );
 
 void Surface::InitializeFieldByLeastEigenV(bool isunified){
     if(n_vertices==0 || n_edges ==0 || n_faces==0)return;
@@ -596,12 +598,18 @@ void Surface::InitializeFieldByLeastEigenV(bool isunified){
             edge_Vweight[i] += faces_area[*p_ef];
     }
     vector<double>outx;
-    EigenInitialization(    vertices_rfield,vertices_rofield,
-                            edge_cot,vertices_Vweight,edge_Vweight,
-                            edges,vertices2edges,
-                            vertices2vertices, vertices2edges_accumulate,
-                            outx
-                            );
+    if(n_vertices>20000)EigenInitialization(    vertices_rfield,vertices_rofield,
+                                                edge_cot,vertices_Vweight,edge_Vweight,
+                                                edges,vertices2edges,
+                                                vertices2vertices, vertices2edges_accumulate,
+                                                outx,20
+                                                );
+    else EigenInitialization(    vertices_rfield,vertices_rofield,
+                                 edge_cot,vertices_Vweight,edge_Vweight,
+                                 edges,vertices2edges,
+                                 vertices2vertices, vertices2edges_accumulate,
+                                 outx
+                                 );
 
 
 

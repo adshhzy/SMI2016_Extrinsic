@@ -1,5 +1,4 @@
 #include "geo_curv.h"
-#include "readers.h"
 
 #include<iostream>
 #include<fstream>
@@ -127,14 +126,6 @@ bool Curve::ReadCurve(ifstream &fin, int p0, int p1, int p2){
 
 
 }
-bool Curve::SaveCurve(string filename){
-    if(n_vertices==0 || n_edges ==0) return false;
-
-
-    //cout<<"writeCurfFile(filename,vertices,edges,vertices_field,tangent)"<<endl;
-    return writeCurfFile(filename,vertices,edges,vertices_field,vertices_f_field);
-}
-
 
 
 void Curve::BuildEdges(bool isseq){

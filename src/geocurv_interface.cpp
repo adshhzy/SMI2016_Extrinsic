@@ -32,13 +32,16 @@ int Curve::Initialize(string inputfile,string outputfile, bool isEigenInit, bool
                  true,false,
                  true,true,
                  1,1,
-                 1,1,
+                 1.4,1.2,
                  false,false);
 
 
 
     //cout<<"outputfile: "<<outputfile<<endl;
-    if(outputfile.size()!=0)SaveCurve(outputfile);
+    if(outputfile.size()!=0){
+        SaveCurve(outputfile);
+        outputDisplay(outputfile);
+    }
 
     return 0;
 }
@@ -49,10 +52,18 @@ int Curve::SpecialCases(int sInd,string inputfile, string outputfile,bool isEige
         focusing[0] = 0.94;
         focusing[1] = -1.;
         focusing[2] = 0.0;
-        BuildToyData(1,85,-1.5,8.6);
+        BuildToyData(1,100,-1.5,8.3);
         InitializeField(true,false);
-        if(isEigenInit)InitializeFieldByLeastEigenV();
+        //if(isEigenInit)InitializeFieldByLeastEigenV();
         if(isGaussIter)RunGaussSeidelIteration();
+
+        BuildDisplay(false,true, false,
+                     false,false, false,
+                     true,false,
+                     true,false,
+                     0.6,0.6,
+                     1,1,
+                     false,false);
 
 
     }else if(sInd>0 && sInd<3){
@@ -64,26 +75,43 @@ int Curve::SpecialCases(int sInd,string inputfile, string outputfile,bool isEige
         if(isGaussIter)RunGaussSeidelIteration();
 
         if(sInd==2)InverseField();
+        BuildDisplay(false,true, false,
+                     false,false, false,
+                     true,false,
+                     true,true,
+                     1,1,
+                     1.4,1.2,
+                     false,false);
 
     }
 
-    BuildDisplay(false);
 
 
-    BuildDisplay(false,true, false,
-                 false,false, false,
-                 true,false,
-                 true,true,
-                 1,1,
-                 1,1,
-                 false,false);
 
 
-    if(outputfile.size()!=0)SaveCurve(outputfile);
+
+
+    if(outputfile.size()!=0){
+        SaveCurve(outputfile);
+        outputDisplay(outputfile);
+    }
 
     return 0;
 }
 
+bool Curve::SaveCurve(string filename){
+    if(n_vertices==0 || n_edges ==0) return false;
+
+
+    //cout<<"writeCurfFile(filename,vertices,edges,vertices_field,tangent)"<<endl;
+    return writeCurfFile(filename,vertices,edges,vertices_field,vertices_f_field);
+}
+
+bool Curve::outputDisplay(string filename){
+
+    return writePLYFile(filename,display_vertices,display_faces,display_vnormals,v_color);
+
+}
 void Curve::BuildDisplay(infoSet info){
 
     BuildDisplay(info.isrescale,info.isvmf, info.isrmf,
@@ -115,6 +143,7 @@ double Curve::RunGaussSeidelIteration(){
     double en_pre = GaussSeidelIteration(vertices_f_field,edge_weight,edges,vertices2edges,vertices2vertices,vertices2edges_accumulate,vertices_field,50000);
 
 
+    BuildOthogonalField();
     return en_pre;
 
 }
@@ -125,7 +154,8 @@ void EigenInitialization(    const vector<double>&vertices_rfield,const vector<d
                              const vector<double>&edge_weight,const vector<double>&vertices_Vweight,const vector<double>&edge_Vweight,
                              const vector<uint>&edges2vertices,const vector<uint>&vertices2edges,
                              const vector<uint>&vertices2vertices, const vector< unsigned long >&vertices2edges_accumulate,
-                             vector<double>&outx
+                             vector<double>&outx,
+                             const int maxIter = 30
                              );
 
 void Curve::InitializeFieldByLeastEigenV(bool isunified){

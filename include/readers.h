@@ -11,7 +11,8 @@ bool readOffFile(string filename,vector<double>&vertices,vector<unsigned int>&fa
 
 bool writeOffFile(string filename,const vector<double>&vertices,const vector<unsigned int>&faces2vertices);
 
-
+bool writePLYFile(string filename, const vector<double>&vertices, const vector<unsigned int>&faces2vertices,
+                  const vector<double> &vertices_normal, const vector<unsigned char>&vertices_color);
 
 bool readObjFile(string filename,vector<double>&vertices,vector<unsigned int>&faces2vertices,vector<double>vertices_normal);
 

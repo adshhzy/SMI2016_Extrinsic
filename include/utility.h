@@ -138,6 +138,18 @@ double inline _TriangleLeastAngle(const double *pv1, const double *pv2, const do
     return acosf(leastangle);
 }
 
+double inline _TetrahedronVolume(const double *v1,const double *v2,const double *v3,const double *v4){
+    double e1[3], e2[3], e3[3],p_n[3];
+    for (uint j = 0; j < 3; ++j){
+        e1[j] = v2[j] - v1[j];
+        e2[j] = v3[j] - v1[j];
+        e3[j] = v4[j] - v1[j];
+    }
+    cross(e2,e3,p_n);
+    return(dot(e1,p_n)/6.);
+}
+
+
 
 inline double projectVectorUNor(const double *proj, const double *normal,double *vec){
     double dis = dot(proj,normal);
@@ -145,6 +157,30 @@ inline double projectVectorUNor(const double *proj, const double *normal,double 
     product(dis,normal,tmp);
     minusVec(proj,tmp,vec);
     return (dis);
+}
+double inline _angleBetweenTwoPlanes(const double *ev1,const double *ev2,const double *v3,const double *v4){
+    double e1[3], e2[3],e[3], p_n1[3],p_n2[3];
+    for (uint j = 0; j < 3; ++j){
+        e[j] = ev2[j] - ev1[j];
+        e1[j] = v3[j] - ev1[j];
+        e2[j] = v4[j] - ev1[j];
+    }
+    cross(e,e1,p_n1);cross(e,e2,p_n2);
+    return(acos(cosine(p_n1,p_n2)));
+}
+double inline _cotBetweenTwoPlanes(const double *ev1,const double *ev2,const double *v3,const double *v4){
+    double e1[3], e2[3],e[3], p_n1[3],p_n2[3],p_n3[3];
+    for (uint j = 0; j < 3; ++j){
+        e[j] = ev2[j] - ev1[j];
+        e1[j] = v3[j] - ev1[j];
+        e2[j] = v4[j] - ev1[j];
+    }
+    cross(e,e1,p_n1);cross(e,e2,p_n2);
+    normalize(p_n1);normalize(p_n2);cross(p_n1,p_n2,p_n3);
+    double cotTheta = dot( p_n1, p_n2 ) / normVec(p_n3);
+    if( cotTheta < 1e-7 )cotTheta = 1e-7;
+    return cotTheta;
+
 }
 inline double projectVectorNor(const double *proj, const double *normal,double *vec){
     double dis = projectVectorUNor(proj,normal,vec);

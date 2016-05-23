@@ -42,9 +42,6 @@ public:
     bool clearup();
     //bool ReadFile(string filename);
 
-
-    int Initialize(string filename, int inputtype = 1);
-
     int ReadArgs(int argc,char** argv);
 
     void BuildDisplay(infoSurfDisp info);
