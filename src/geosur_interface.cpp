@@ -49,7 +49,7 @@ int Surface::Initialize(string inputfile, string outputfile, bool isEigenInit, b
 
     BuildDisplay(infoSurfDisp(true,false,true,false,
                                           true,false,
-                                          30,30,130));
+                                          30,17,130));
     if(outputfile.size()!=0){
         SaveInterface(outputfile);
         outputDisplay(outputfile);

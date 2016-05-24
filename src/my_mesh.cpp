@@ -1,4 +1,5 @@
 #include "my_mesh.h"
+#include "readers.h"
 //#include <hash_map>
 #include <list>
 #include <map>
@@ -644,7 +645,6 @@ void Mesh::ComputeDefectAngle(){
     vertices_defect.resize(n_vertices,-1.0);
 
     double e1[3],e2[3],*p_e;
-    bool ise2 = false;
     for(uint i = 0;i<n_vertices;++i){
         if(isflingevertives(i))continue;
         vertices_defect[i]=0;
@@ -1355,70 +1355,14 @@ void Mesh::SurfaceLaplacianFairing(double lambda,int iter,vector<bool>* staticv)
 
 bool Mesh::readObjfile(string filename){
 
-    ifstream reader(filename.data(), ifstream::in);
-    if (!reader.good()) {
-        cout << "Can not open the OBJ file " << filename << endl;
-        return false;
-    }
+    vector<double>tmp_vertices,tmp_vn;
+    vector<uint>tmp_fv;
+    if(!readObjFile(filename,tmp_vertices,tmp_fv,tmp_vn))return false;
 
     reset();
+    vertices = tmp_vertices;
+    faces2vertices = tmp_fv;
 
-    auto readVertices = [this](stringstream &ss){
-        double dvalue;
-        for(int i=0;i<3;++i){ss>>dvalue;vertices.push_back(dvalue);}
-    };
-    auto readFace = [this](stringstream &ss){
-        int ivalue;
-        string component;
-        for(int i=0;i<3;++i){
-            ss>>component;
-            stringstream tt(component);
-            tt>>ivalue;faces2vertices.push_back(ivalue-1);
-        }
-    };
-    //    auto readVerticesField = [this](stringstream &ss){
-    //        double dvalue;
-    //        for(int i=0;i<3;++i){ss>>dvalue;vertices_field.push_back(dvalue);}
-    //    };
-
-
-    string oneline;
-
-    cout<<"reading: "<<filename<<endl;
-
-    while( getline( reader, oneline ))
-    {
-        stringstream ss( oneline );
-        string token;
-
-        ss >> token;
-
-        if( token == "v"  ) { readVertices( ss ); continue; } // vertex
-        if( token == "vt" ) {  continue; } // texture coordinate
-        if( token == "vn" ) {  continue; } // vertex normal
-        if( token == "vf" ) { /*readVerticesField( ss );*/ continue; } // tangent vector
-        if( token == "f"  ) { readFace( ss ); continue; } // face
-        if( token[0] == '#' ) continue; // comment
-        if( token == "o" ) continue; // object name
-        if( token == "g" ) continue; // group name
-        if( token == "s" ) continue; // smoothing group
-        if( token == "mtllib" ) continue; // material library
-        if( token == "usemtl" ) continue; // material
-        if( token == "k" ) continue; // field degree
-        if( token == "fs" ) continue; // field singularity
-        if( token == "" ) continue; // empty string
-        if( token == "c" ) continue;
-
-
-        cerr << "Error: does not appear to be a valid Wavefront OBJ file!" << endl;
-        cerr << "(Offending line: " << oneline << ")" << endl;
-        return false;
-    }
-    //cout<<"nfvec "<<nfvec<<endl;
-
-
-
-    reader.close();
 
 
 
@@ -1558,7 +1502,7 @@ double Mesh::ComputeDihedralAngle(uint e_ind){
 }
 double Mesh::EdgeCottan(uint e_ind){
     auto p_ev = ev_begin(e_ind);
-    uint va = p_ev[0],vb = p_ev[1],vc;
+    uint va = p_ev[0],vb = p_ev[1],vc = 0;
     double w[3],u[3],v[3];
     const double thr = 1e-7;
     auto p_ef = ef_begin(e_ind);

@@ -168,7 +168,7 @@ public:
     bool isLineMode;
     //int upnormal;
 
-    infoVolDisp():length(30),isIso(false){}
+    infoVolDisp():isIso(false),length(30){}
 
     infoVolDisp(bool isField,bool isNormal,bool isSurface,bool isWire,bool isSingularity,
                 bool isIso,int length,int upnormal,

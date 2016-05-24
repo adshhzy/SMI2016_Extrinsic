@@ -40,7 +40,7 @@ void Curve::BuildDisplay(bool isrescale,bool isuseball){
         //for(auto& v:vertices)v/=largestdis;
         for (int j = 0; j<n_vertices*3; j+=3)
             for(int i = 0; i<3; i++)
-                vertices[j+i]=(vertices[j+i]-centers[i]);
+                vertices[j+i]=(vertices[j+i]-centers[i])/largestdis;
 
 
     }
@@ -152,8 +152,8 @@ void Curve::BuildDisplay(bool isrescale,bool isuseball){
 
 
     unsigned char red[4] = {225,0,0,255};
-    unsigned char blue[4] = {0,0,225,255};
-    unsigned char green[4] = {0,255,0,255};
+    //unsigned char blue[4] = {0,0,225,255};
+    //unsigned char green[4] = {0,255,0,255};
     unsigned char gray[4] = {225,225,225,255};
     v_color.clear();
     for (int i = 0; i < n_vertices; i++)for(int j =0;j<4;++j)v_color.push_back(red[j]);
@@ -194,7 +194,7 @@ void Curve::BuildDisplay(bool isrescale, bool isvmf, bool isrmf, bool isnormal, 
 
     unsigned char red[4] = {255,0,0,255};
     unsigned char green[4] = {0,255,0,255};
-    unsigned char dark[4] = {0,0,0,255};
+    //unsigned char dark[4] = {0,0,0,255};
     unsigned char blue[4] = {0,0,255,255};
     unsigned char pink[4] = {255,204,204,255};
     unsigned char gray[4] = {225,225,225,255};
@@ -321,63 +321,63 @@ void Curve::BuildDisplay(bool isrescale, bool isvmf, bool isrmf, bool isnormal, 
                 for (int i = 0; i < n_vertices * cone.n_vertices; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);
             }
         };
-        auto constructFunction_single = [this,&ori,&tranformed,&ori_cone,&tranformed_cone,&veclen,&thickness,
-                &orivnor,&orivnor_cone](double *p_rv,int ind, unsigned char*cc){
-            int offset = display_vertices.size()/3;
-            double scale1 = scale *3.2, scale2 = scale * 0.13;
-            Eigen::AngleAxisd t;
-            double vec[3],endp[3],nz[3] = {0,0,1};
+        //        auto constructFunction_single = [this,&ori,&tranformed,&ori_cone,&tranformed_cone,&veclen,&thickness,
+        //                &orivnor,&orivnor_cone](double *p_rv,int ind, unsigned char*cc){
+        //            int offset = display_vertices.size()/3;
+        //            double scale1 = scale *3.2, scale2 = scale * 0.13;
+        //            Eigen::AngleAxisd t;
+        //            double vec[3],endp[3],nz[3] = {0,0,1};
 
-            offset = display_vertices.size()/3;
-            auto p_v = v_begin(ind);
+        //            offset = display_vertices.size()/3;
+        //            auto p_v = v_begin(ind);
 
-            product(scale1*veclen,p_rv,vec);
-            add(p_v,vec,vec);
-            _VerticesMidpoint(p_v,vec,vec);
-            product(scale1*veclen,p_rv,endp);
-            add(p_v,endp,endp);
-            ComputeAngleAxisMatrix(t,nz,p_rv);
-            Eigen::Transform<double,3,Eigen::Affine> t_m(t);
-            t_m.scale(Eigen::Vector3d(scale2*thickness,scale2*thickness,scale1*veclen));
-            for(int j = 0;j<cylinder.n_vertices;++j){
-                tranformed[j] = t_m*ori[j];
-            }
-            for(int j = 0;j<cone.n_vertices;++j){
-                tranformed_cone[j] = t_m*ori_cone[j];
-            }
-            for(int j = 0;j<cylinder.n_vertices;++j){
-                for(int k=0;k<3;++k)display_vertices.push_back(tranformed[j](k)+vec[k]);
-            }
-            auto p_sf = cylinder.fv_begin(0);
-            for(int j = 0;j<cylinder.n_faces*3;++j){
-                display_faces.push_back(offset+p_sf[j]);
-            }
-            offset = display_vertices.size()/3;
-            for(int j = 0;j<cone.n_vertices;++j){
-                for(int k=0;k<3;++k)display_vertices.push_back(tranformed_cone[j](k)+endp[k]);
-            }
-            p_sf = cone.fv_begin(0);
-            for(int j = 0;j<cone.n_faces*3;++j){
-                display_faces.push_back(offset+p_sf[j]);
-            }
+        //            product(scale1*veclen,p_rv,vec);
+        //            add(p_v,vec,vec);
+        //            _VerticesMidpoint(p_v,vec,vec);
+        //            product(scale1*veclen,p_rv,endp);
+        //            add(p_v,endp,endp);
+        //            ComputeAngleAxisMatrix(t,nz,p_rv);
+        //            Eigen::Transform<double,3,Eigen::Affine> t_m(t);
+        //            t_m.scale(Eigen::Vector3d(scale2*thickness,scale2*thickness,scale1*veclen));
+        //            for(int j = 0;j<cylinder.n_vertices;++j){
+        //                tranformed[j] = t_m*ori[j];
+        //            }
+        //            for(int j = 0;j<cone.n_vertices;++j){
+        //                tranformed_cone[j] = t_m*ori_cone[j];
+        //            }
+        //            for(int j = 0;j<cylinder.n_vertices;++j){
+        //                for(int k=0;k<3;++k)display_vertices.push_back(tranformed[j](k)+vec[k]);
+        //            }
+        //            auto p_sf = cylinder.fv_begin(0);
+        //            for(int j = 0;j<cylinder.n_faces*3;++j){
+        //                display_faces.push_back(offset+p_sf[j]);
+        //            }
+        //            offset = display_vertices.size()/3;
+        //            for(int j = 0;j<cone.n_vertices;++j){
+        //                for(int k=0;k<3;++k)display_vertices.push_back(tranformed_cone[j](k)+endp[k]);
+        //            }
+        //            p_sf = cone.fv_begin(0);
+        //            for(int j = 0;j<cone.n_faces*3;++j){
+        //                display_faces.push_back(offset+p_sf[j]);
+        //            }
 
 
-            for(int j = 0;j<cylinder.n_vertices;++j){
-                tranformed[j] = t_m*orivnor[j];
-            }
-            for(int j = 0;j<cone.n_vertices;++j){
-                tranformed_cone[j] = t_m*orivnor_cone[j];
-            }
-            for(int j = 0;j<cylinder.n_vertices;++j){
-                for(int k=0;k<3;++k)display_vnormals.push_back(tranformed[j](k));
-            }
-            for(int j = 0;j<cone.n_vertices;++j){
-                for(int k=0;k<3;++k)display_vnormals.push_back(tranformed_cone[j](k));
-            }
-            //cout<<"cone: "<<cone.n_vertices<<" "<<cone.n_faces<<endl;
-            for (int i = 0; i < cylinder.n_vertices; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);
-            for (int i = 0; i < cone.n_vertices; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);
-        };
+        //            for(int j = 0;j<cylinder.n_vertices;++j){
+        //                tranformed[j] = t_m*orivnor[j];
+        //            }
+        //            for(int j = 0;j<cone.n_vertices;++j){
+        //                tranformed_cone[j] = t_m*orivnor_cone[j];
+        //            }
+        //            for(int j = 0;j<cylinder.n_vertices;++j){
+        //                for(int k=0;k<3;++k)display_vnormals.push_back(tranformed[j](k));
+        //            }
+        //            for(int j = 0;j<cone.n_vertices;++j){
+        //                for(int k=0;k<3;++k)display_vnormals.push_back(tranformed_cone[j](k));
+        //            }
+        //            //cout<<"cone: "<<cone.n_vertices<<" "<<cone.n_faces<<endl;
+        //            for (int i = 0; i < cylinder.n_vertices; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);
+        //            for (int i = 0; i < cone.n_vertices; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);
+        //        };
 
         if(isrvector){
             //cout<<"isVector"<<endl;
@@ -411,109 +411,6 @@ void Curve::BuildDisplay(bool isrescale, bool isvmf, bool isrmf, bool isnormal, 
     }
 
     if(isSurface){
-        auto constructSurface2 = [this,&veclen,&thickness](double *p_fn,unsigned char*cc){
-
-            double scale1 = scale *3*veclen;
-            double vec[3];
-            int  offset = display_vertices.size()/3;
-            for (int i = 0; i < n_vertices; i++){
-                auto p_v = v_begin(i);
-                auto p_rv = p_fn + i*3;
-                product(scale1,p_rv,vec);
-                for(int k=0;k<3;++k)display_vertices.push_back(p_v[k]+vec[k]);
-                for(int k=0;k<3;++k)display_vertices.push_back(p_v[k]-vec[k]);
-            }
-
-            for (int i = 0; i < n_vertices-1; i++){
-                int b = offset+2*i;
-                display_faces.push_back(b);
-                display_faces.push_back(b+1);
-                display_faces.push_back(b+2);
-                display_faces.push_back(b+2);
-                display_faces.push_back(b+1);
-                display_faces.push_back(b+3);
-            }
-            if(isloop){
-                int b = offset+2*(n_vertices-1);
-                display_faces.push_back(b);
-                display_faces.push_back(b+1);
-                display_faces.push_back(offset);
-                display_faces.push_back(offset);
-                display_faces.push_back(b+1);
-                display_faces.push_back(offset+1);
-            }
-
-
-            for (int i = 0; i < n_vertices * 2; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);
-        };
-
-
-        auto constructSurface = [this,&veclen,&thickness](double *p_fn,unsigned char*cc){
-
-            double scale1 = scale *3*veclen;
-            double vec[3],ovec[3];
-            double nor1[3],nor2[3];
-            double scale2 = scale*1*thickness;
-            int  offset = display_vertices.size()/3;
-
-
-            for (int i = 0; i < n_vertices; i++){
-                auto p_v = v_begin(i);
-                auto p_rv = p_fn + i*3;
-                cross(t_begin(i),p_rv,ovec);
-                product(scale1,p_rv,vec);
-                product(scale2,ovec,ovec);
-                add(vec,ovec,nor1);minusVec(ovec,vec,nor2);
-
-                for(int k=0;k<3;++k)display_vertices.push_back(p_v[k]+nor1[k]);
-                for(int k=0;k<3;++k)display_vertices.push_back(p_v[k]+nor2[k]);
-                for(int k=0;k<3;++k)display_vertices.push_back(p_v[k]-nor2[k]);
-                for(int k=0;k<3;++k)display_vertices.push_back(p_v[k]-nor1[k]);
-
-                //cout<<"adsadsadasdasasdasd"<<endl;
-                normalize(nor1);
-                normalize(nor2);
-
-
-                for(int k=0;k<3;++k)display_vnormals.push_back(nor1[k]);
-                for(int k=0;k<3;++k)display_vnormals.push_back(nor2[k]);
-                for(int k=0;k<3;++k)display_vnormals.push_back(-nor2[k]);
-                for(int k=0;k<3;++k)display_vnormals.push_back(-nor1[k]);
-            }
-
-            int  ff[] = {4,1,0,5,4,1,2,3,6,3,6,7,0,2,4,2,4,6,1,3,5,3,5,7};
-            //int  ff[] = {0,1,4,4,1,5,2,3,6,6,3,7,0,2,4,4,2,6,1,3,5,5,3,7};
-            for (int i = 0; i < n_vertices-1; i++){
-                int b = offset+4*i;
-                for(int j=0;j<24;++j)display_faces.push_back(b+ff[j]);
-
-
-            }
-            if(isloop){
-                int b = offset+2*(n_vertices-1);
-                display_faces.push_back(b);
-                display_faces.push_back(b+1);
-                display_faces.push_back(offset);
-                display_faces.push_back(offset);
-                display_faces.push_back(b+1);
-                display_faces.push_back(offset+1);
-
-
-            }else{
-                int b = offset;
-                display_faces.push_back(b);display_faces.push_back(b+1);display_faces.push_back(b+2);
-                display_faces.push_back(b+2);display_faces.push_back(b+1);display_faces.push_back(b+3);
-
-
-                b = offset+4*(n_vertices-1);
-                display_faces.push_back(b);display_faces.push_back(b+1);display_faces.push_back(b+2);
-                display_faces.push_back(b+2);display_faces.push_back(b+1);display_faces.push_back(b+3);
-
-            }
-
-
-            for (int i = 0; i < n_vertices * 4; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);
-        };
 
         auto constructSurface3 = [this,&boxlen,&boxthickness,isSurfColor](double *p_fn,unsigned char*cc){
 
@@ -560,42 +457,42 @@ void Curve::BuildDisplay(bool isrescale, bool isvmf, bool isrmf, bool isnormal, 
 
             }
             int newvnum = n_vertices*8;
-            if(1)
-                if(isloop){
-                    for(int i=0;i<2;++i){
-                        int e = offset+8*(n_vertices-1)+i*2;
-                        int b = offset +i*2;
-                        display_faces.push_back(b);
-                        display_faces.push_back(b+1);
-                        display_faces.push_back(e);
-                        display_faces.push_back(e);
-                        display_faces.push_back(b+1);
-                        display_faces.push_back(e+1);
-                    }
-                    for(int i=0;i<2;++i){
-                        int e = offset+8*(n_vertices-1)+i+4;
-                        int b = offset + i +4;
-                        display_faces.push_back(b);
-                        display_faces.push_back(b+2);
-                        display_faces.push_back(e);
-                        display_faces.push_back(e);
-                        display_faces.push_back(b+2);
-                        display_faces.push_back(e+2);
-                    }
 
-
-                }else{
-                    int b = offset;
-
-                    display_faces.push_back(b);display_faces.push_back(b+1);display_faces.push_back(b+2);
-                    display_faces.push_back(b+2);display_faces.push_back(b+1);display_faces.push_back(b+3);
-
-
-                    b = offset+8*(n_vertices-1);
-                    display_faces.push_back(b);display_faces.push_back(b+1);display_faces.push_back(b+2);
-                    display_faces.push_back(b+2);display_faces.push_back(b+1);display_faces.push_back(b+3);
-
+            if(isloop){
+                for(int i=0;i<2;++i){
+                    int e = offset+8*(n_vertices-1)+i*2;
+                    int b = offset +i*2;
+                    display_faces.push_back(b);
+                    display_faces.push_back(b+1);
+                    display_faces.push_back(e);
+                    display_faces.push_back(e);
+                    display_faces.push_back(b+1);
+                    display_faces.push_back(e+1);
                 }
+                for(int i=0;i<2;++i){
+                    int e = offset+8*(n_vertices-1)+i+4;
+                    int b = offset + i +4;
+                    display_faces.push_back(b);
+                    display_faces.push_back(b+2);
+                    display_faces.push_back(e);
+                    display_faces.push_back(e);
+                    display_faces.push_back(b+2);
+                    display_faces.push_back(e+2);
+                }
+
+            }
+            else{
+                int b = offset;
+
+                display_faces.push_back(b);display_faces.push_back(b+1);display_faces.push_back(b+2);
+                display_faces.push_back(b+2);display_faces.push_back(b+1);display_faces.push_back(b+3);
+
+
+                b = offset+8*(n_vertices-1);
+                display_faces.push_back(b);display_faces.push_back(b+1);display_faces.push_back(b+2);
+                display_faces.push_back(b+2);display_faces.push_back(b+1);display_faces.push_back(b+3);
+
+            }
 
 
             if(!isSurfColor)for (int i = 0; i < newvnum; i++)for(int j =0;j<4;++j)v_color.push_back(cc[j]);

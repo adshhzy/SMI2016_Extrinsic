@@ -223,19 +223,19 @@ void EigenInitialization(    const vector<double>&vertices_rfield,const vector<d
     auto vv_begin = [p_vvd,p_veacd](uint vind){return p_vvd + p_veacd[vind];};
     auto vv_end = [p_vvd,p_veacd](uint vind){return p_vvd + p_veacd[vind+1];};
     auto ve_begin = [p_ved,p_veacd](uint vind){return p_ved + p_veacd[vind];};
-    auto ve_end = [p_ved,p_veacd](uint vind){return p_ved + p_veacd[vind+1];};
+    //auto ve_end = [p_ved,p_veacd](uint vind){return p_ved + p_veacd[vind+1];};
 
     //    auto vs_begin = [p_vsd,p_vsacd](uint vind){return p_vsd + p_vsacd[vind];};
     //    auto vs_end = [p_vsd,p_vsacd](uint vind){return p_vsd + p_vsacd[vind+1];};
 
-    auto p_evd = edges2vertices.data();
-    auto ev_begin = [p_evd](uint eind){return p_evd+2*eind;};
+    //auto p_evd = edges2vertices.data();
+    //auto ev_begin = [p_evd](uint eind){return p_evd+2*eind;};
 
 
     int n_vertices = vertices2edges_accumulate.size()-1;
     int n_edges = edge_weight.size();
 
-    SparseMatrix<double> H(3*n_edges,2*n_vertices);
+
     SparseMatrix<double> A(2*n_vertices,2*n_vertices);
     typedef Eigen::Triplet<double> T;
     std::vector<T> tripletList;
@@ -352,9 +352,9 @@ double GaussSeidelIteration(const vector<double>&vertices_normal,
     auto p_veacd = vertices2edges_accumulate.data();
 
     auto vv_begin = [p_vvd,p_veacd](uint vind){return p_vvd + p_veacd[vind];};
-    auto vv_end = [p_vvd,p_veacd](uint vind){return p_vvd + p_veacd[vind+1];};
+    //auto vv_end = [p_vvd,p_veacd](uint vind){return p_vvd + p_veacd[vind+1];};
     auto ve_begin = [p_ved,p_veacd](uint vind){return p_ved + p_veacd[vind];};
-    auto ve_end = [p_ved,p_veacd](uint vind){return p_ved + p_veacd[vind+1];};
+    //auto ve_end = [p_ved,p_veacd](uint vind){return p_ved + p_veacd[vind+1];};
     auto vv_num = [p_veacd](uint vind){return p_veacd[vind+1]- p_veacd[vind];};
 
     auto p_evd = edges2vertices.data();

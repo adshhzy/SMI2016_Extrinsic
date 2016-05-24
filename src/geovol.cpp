@@ -253,6 +253,7 @@ int Volume::Initialize(string inputfile, string outputfile, bool isEigenInit, bo
         SaveInterface(outputfile);
         outputDisplay(outputfile);
     }
+    return 0;
 
 }
 int Volume::SpecialCases(string outputfile, bool isEigenInit, bool isGaussIter){
@@ -272,6 +273,7 @@ int Volume::SpecialCases(string outputfile, bool isEigenInit, bool isGaussIter){
         outputDisplay(outputfile);
     }
 
+    return 0;
 }
 
 void Volume::ToyGeneration(){

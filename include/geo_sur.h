@@ -105,7 +105,7 @@ public:
 
 public:
 
-    double computeRotationAlongAxis(const double angle, const double *norAxis, const double *vec, double *vecout);
+    void computeRotationAlongAxis(const double angle, const double *norAxis, const double *vec, double *vecout);
 
 /********************************************************************************************/
 /********************************************************************************************/

@@ -10,7 +10,7 @@ bool Curve::isload = false;
 Mesh Curve::sphere;
 Mesh Curve::cylinder;
 Mesh Curve::cone;
-Curve::Curve():n_vertices(0),n_edges(0),isbuild(false),isSettangent(false),isBuildFrenet(false)
+Curve::Curve():n_vertices(0),n_edges(0),isSettangent(false),isBuildFrenet(false),isbuild(false)
 {
 
     load();

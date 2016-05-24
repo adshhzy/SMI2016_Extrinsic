@@ -152,10 +152,19 @@ bool readObjFile(string filename, vector<double>&vertices, vector<unsigned int>&
         for(int i=0;i<3;++i){strs>>dvalue;vertices.push_back(dvalue);}
     };
     auto readFaces = [&faces2vertices](stringstream &strs){
+        string oneset,indstring;
         int ivalue;
-        for(int i=0;i<3;++i){
-            strs>>ivalue;faces2vertices.push_back(ivalue-1);
+        while (strs>>oneset){
+            stringstream oneset_ss( oneset );
+            getline( oneset_ss, indstring, '/' );
+            stringstream indstring_ss(indstring);
+            indstring_ss >> ivalue;
+            faces2vertices.push_back(ivalue-1);
         }
+
+//        for(int i=0;i<3;++i){
+//            strs>>ivalue;faces2vertices.push_back(ivalue-1);
+//        }
     };
     auto readVerticesNormal = [&vertices_normal](stringstream &strs){
         double dvalue;

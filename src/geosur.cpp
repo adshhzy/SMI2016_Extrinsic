@@ -239,7 +239,7 @@ void Surface::clearup(){
 
 
 
-double Surface::computeRotationAlongAxis(const double angle, const double *norAxis, const double *vec, double *vecout){
+void Surface::computeRotationAlongAxis(const double angle, const double *norAxis, const double *vec, double *vecout){
 
     Eigen::Vector3d axis,invec;
     for(int i=0;i<3;++i)axis(i)= norAxis[i];
@@ -249,6 +249,7 @@ double Surface::computeRotationAlongAxis(const double angle, const double *norAx
     Eigen::AngleAxisd tb(angle,axis);
     Eigen::Vector3d outvec = tb*invec;
     for(int i=0;i<3;++i)vecout[i]= outvec(i);
+
 
 
 }
@@ -279,7 +280,7 @@ void Surface::BuildPickID(){
 
 
     id_pick_color.resize(n_faces*3*3*4);
-    unsigned char cc[3];
+    unsigned char cc[4];
 
     for(uint i=0;i<n_faces;++i){
 
@@ -378,6 +379,7 @@ bool Surface::readSufFile(string filename){
     cout<<n_vertices<<n_faces<<endl;
 
 
+    return true;
 
 
 }

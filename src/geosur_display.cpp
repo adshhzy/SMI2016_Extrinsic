@@ -17,8 +17,8 @@ void Surface::BuildDisplay(double colordegree,bool isfield, bool isnormal,bool i
 
     static int nv = 0;
     static int nc = 0;
-    static int ne = 0;
-    static int nf = 0;
+    //static int ne = 0;
+    //static int nf = 0;
     static int nn = 0;
 
     if(n_vertices==0)return;
@@ -34,7 +34,7 @@ void Surface::BuildDisplay(double colordegree,bool isfield, bool isnormal,bool i
     unsigned char dark[4] = {0,0,0,255};
     unsigned char red[4] = {250,0,0,255};
     unsigned char blue[4] = {0,0,255,255};
-    unsigned char gray[4] = {225,225,225,255};
+    //unsigned char gray[4] = {225,225,225,255};
     unsigned char colllour[4] = {225,225,225,255};
 
     //ThresholdColoring(colordegree,colllour);
@@ -208,7 +208,7 @@ void Surface::BuildDisplay(double colordegree,bool isfield, bool isnormal,bool i
 
     auto drawsingularity=[this](vector<uint>* p_sing,double *p_pos,uchar *colour,double scale){
         int numofSin = p_sing->size();
-        double pos[3];
+
         for(int i=0;i<numofSin;++i){
             int offset = display_vertices.size()/3;
             auto p_v = p_pos+3*(p_sing->at(i));

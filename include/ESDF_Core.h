@@ -12,8 +12,7 @@ class ESDF_Core{
 public:
     enum{CURV,SURF,VOL};
     int curstate;
-private:
-    int sparsecoff;
+
 private:
     string modelname;
     string prepath;
