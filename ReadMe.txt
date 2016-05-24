@@ -25,7 +25,7 @@ For your convenience, we include the Eigen3 files in the repository. You can use
 
 To build the program, just simply typing
 
-	$./make
+	$make
 
 in the root directory.  The result will be an executable called “extrinsic” (or “extrinsic.exe” on Windows if it is successfully built).
 
