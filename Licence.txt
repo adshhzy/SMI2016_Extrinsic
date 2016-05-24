@@ -1,0 +1,2 @@
+The source code is currently distributed under the license MPL2, which is a simple weak copyleft license. 
+Please check the MPL2 FAQ (https://www.mozilla.org/en-US/MPL/2.0/FAQ/) for more information, and contact me if you have any question.
