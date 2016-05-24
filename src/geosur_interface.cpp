@@ -10,7 +10,10 @@ int Surface::Initialize(string inputfile, string outputfile, bool isEigenInit, b
 
     rere = ReadFile(inputfile);
 
-    if(!rere)return -1;
+    if(!rere){
+        cout<<"invalid input: "<<inputfile<<endl;
+        return -1;
+    }
 
     setparameters();
     ReScale_uniform(1.0);
@@ -40,7 +43,8 @@ int Surface::Initialize(string inputfile, string outputfile, bool isEigenInit, b
     if(isGaussIter)RunGaussSeidelIteration();
     ComputeVerticesFieldSingularity();
 
-    if(n_vertices<30000)sparseSampling(1);
+    if(n_vertices<5000)sparseSampling(1);
+    else if(n_vertices<30000)sparseSampling(1);
     else if(n_vertices<60000)sparseSampling(2);
     else sparseSampling(3);
 
@@ -49,7 +53,7 @@ int Surface::Initialize(string inputfile, string outputfile, bool isEigenInit, b
 
     BuildDisplay(infoSurfDisp(true,false,true,false,
                                           true,false,
-                                          30,17,130));
+                                          30,15,130));
     if(outputfile.size()!=0){
         SaveInterface(outputfile);
         outputDisplay(outputfile);

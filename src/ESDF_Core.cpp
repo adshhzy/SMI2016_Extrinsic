@@ -190,11 +190,12 @@ void positiveDefiniteLeastEigenVector(SparseMatrix<double>& A,SparseMatrix<doubl
     solver.compute(A);
     cout<<"MaxIter: "<<maxIter<<endl;
     for(int i=0;i<maxIter;++i){
-        cout<<"Iter: "<<i<<endl;
+        cout<<"\r"<<int(100.*(i+1)/maxIter)<<"%"<<flush;
         x = solver.solve(M*x);
         x /= (M*x).dot(x);
         //x/=x.norm();
     }
+    cout<<endl;
 
     outx.resize(x.rows());
     for(int i=0;i<x.rows();++i)outx[i] = x(i);

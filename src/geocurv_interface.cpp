@@ -12,7 +12,10 @@ int Curve::Initialize(string inputfile,string outputfile, bool isEigenInit, bool
 
     //ReadCurve(string("/Users/Research/Geometry/matlabspace/drawcurveT.cur"));
     //ReadCurve(inputfile);
-    readCurfFile(inputfile,vertices,edges,vertices_field,vertices_f_field);
+    if(!readCurfFile(inputfile,vertices,edges,vertices_field,vertices_f_field)){
+        cout<<"invalid input: "<< inputfile <<endl;
+        return -1;
+    }
     setparameters();
     SortLoopEdges();
     //RescaleUniform();
