@@ -64,7 +64,7 @@ To generate the files for related figures in the paper, type in the root directo
 
 Be sure that the program has been built in the root directory, and the “input” folder, “output” folder are in the in the root directory.
 
-Noted that for generating the files for some figures (e.g fig 5, Biarc), we directly build the model in the program and do not require a input model.
+Noted that for generating files for some figures (e.g fig 5, Biarc), we directly build the model in the program and do not require a input model.
 
 Two output files will be generated in “output” folder as “figx_x.curf” (or “figx_x.surf”, “figx_x.volf”), and “figx_x.ply”. The “figx_x.ply” can be open at standard mesh viewers, but the rendering effect may be different from the exact corresponding figures in the paper.
 
