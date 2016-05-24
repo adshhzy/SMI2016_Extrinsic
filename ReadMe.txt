@@ -40,7 +40,7 @@ To run the code from the command line, type
 where:
 1. -i: followed by the path of the input file. input_file_name is a path to the input file, currently support file format includes “.off”, “.obj”, “.curf”, “.surf”, “.volf”;
  
-2. -o: followed by the path of the output file. output_file_name is a path to the output file, you don’t need to specify the extension of the output file, the program will define it to be either “.curf”, “.surf” or “.volf”, according to the input file. 
+2. -o: followed by the path of the output file. output_file_name is a path to the output file, you don’t need to specify the extension of the output file, the program will define it to be either “.curf”, “.surf” or “.volf”, according to the input file. If this argument is missed, the default output will be “./output”.
 
 3. -e: optional argument. If -e is included in the command line, the “eigenvector initialization” will be run, otherwise the direction filed will be randomly initialized. 
 
