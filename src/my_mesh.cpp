@@ -437,7 +437,7 @@ void Mesh::BuildNeighborTable(){
 
 
 
-    cout <<"total faces: "<<n_faces<< " un_manifold: " << un_manifold << " flinge_face: " << flinge_face << endl;
+    //cout <<"total faces: "<<n_faces<< " un_manifold: " << un_manifold << " flinge_face: " << flinge_face << endl;
     isbuildneighbortable = true;
 }
 
