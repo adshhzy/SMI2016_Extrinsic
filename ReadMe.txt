@@ -64,7 +64,7 @@ To generate the files for related figures in the paper, type in the root directo
 
 Be sure that the program has been built in the root directory, and the “input” folder, “output” folder are in the in the root directory.
 
-Noted that for generating files for some figures (e.g fig 5, Biarc), we directly build the model in the program and do not require a input model.
+Noted that for generating the files for some figures (e.g fig 5, Biarc), we directly build the model in the program and do not require a input model.
 
 Two output files will be generated in “output” folder as “figx_x.curf” (or “figx_x.surf”, “figx_x.volf”), and “figx_x.ply”. The “figx_x.ply” can be open at standard mesh viewers, but the rendering effect may be different from the exact corresponding figures in the paper.
 
@@ -72,6 +72,7 @@ Two output files will be generated in “output” folder as “figx_x.curf” (
 
 FORMAT
 ======================================================================================================
+
 .curf:
 
 “.curf” file mimics the format of “.obj” (see https://en.wikipedia.org/wiki/Wavefront_.obj_file) with partial and modified key words:
@@ -86,7 +87,7 @@ key word “v” is followed by x, y, z coordinate of a vertex;
 key word “e” is followed by the index of vertices which make up the edge;
 key word “vn” is followed by the x, y, z coordinate of the reference vector “f” on a vertex (curve tangent by default);
 key word “vf” is followed by the x, y, z coordinate of the generated vector which is orthogonal to “vn”, on a vertex;
-The order of “vn” and “vf” must follow the order of “v”, which means that the reference vector/field map to the each vertex orderly.
+The order of “vn” and “vf” must follow the order of “v”, which means that the reference vector/field maps to the each vertex orderly.
 
 ————————————————————————————————————————————————————————————————————————————————————————————————————
 .surf:
@@ -103,7 +104,7 @@ key word “v” is followed by x, y, z coordinate of a vertex;
 key word “f” is followed by the index of the three vertices which make up the triangle;
 key word “vn” is followed by the x, y, z coordinate of the reference vector “f” on a vertex (surface normal by default);
 key word “vf” is followed by the x, y, z coordinate of the generated vector which is orthogonal to “vn”, on a vertex;
-The order of “vn” and “vf” must follow the order of “v”, which means that the reference vector/field map to the each vertex orderly.
+The order of “vn” and “vf” must follow the order of “v”, which means that the reference vector/field maps to the each vertex orderly.
 
 ————————————————————————————————————————————————————————————————————————————————————————————————————
 .volf:
@@ -120,4 +121,4 @@ key word “v” is followed by x, y, z coordinate of a vertex;
 key word “tet” is followed by the index of the four vertices which make up the tetrahedra;
 key word “vn” is followed by the x, y, z coordinate of the reference vector “f” on a vertex;
 key word “vf” is followed by the x, y, z coordinate of the generated vector which is orthogonal to “vn”, on a vertex;
-The order of “vn” and “vf” must follow the order of “v”, which means that the reference vector/field map to the each vertex orderly.
+The order of “vn” and “vf” must follow the order of “v”, which means that the reference vector/field maps to the each vertex orderly.
