@@ -19,11 +19,11 @@ BUILDING
 
 The code has only one dependency: Eigen/Eigen3
 
-Eigen is a C++ template library for linear algebra, and it is a header-based library which can be use right away without binary library to link to, and no configured header file. For different platforms, it should work without modification. see http://eigen.tuxfamily.org/index.php?title=Main_Page for further instruction.
+Eigen is a C++ template library for linear algebra, and it is a header-based library which can be use right away without binary library to link to, and no configured header file. For different platforms, it should work without modification. See http://eigen.tuxfamily.org/index.php?title=Main_Page for further instruction.
 
 For your convenience, we include the Eigen3 files in the repository. You can use other version of the Eigen3, but be sure to change the path (EIGEN_PATH) in Makefile if you place it in a different folder.
 
-To build the program, just simply typing
+To build the program, just simply type
 
 	$make
 
@@ -54,19 +54,19 @@ where:
 
 
 
-Generating Figures in the paper
+Generating figures in the paper
 ======================================================================================================
 
-To generate the files for related figures in the paper, type in the root directory:
+To generate files for related figures in the paper, type in the root directory:
 
 	$chmod +x makefigure.sh
 	$./makefigure.sh
 
-Be sure that the program has been built in the root directory, and the “input” folder, “output” folder are in the in the root directory.
+Be sure that the program has been built in the root directory, and the “input” folder, “output” folder are in the same root directory.
 
 Noted that for generating the files for some figures (e.g fig 5, Biarc), we directly build the model in the program and do not require a input model.
 
-Two output files will be generated in “output” folder as “figx_x.curf” (or “figx_x.surf”, “figx_x.volf”), and “figx_x.ply”. The “figx_x.ply” can be open at standard mesh viewers, but the rendering effect may be different from the exact corresponding figures in the paper.
+Two output files will be generated in “output” folder as “figx_x.curf” (or “figx_x.surf”, “figx_x.volf”), and “figx_x.ply”. The “figx_x.ply” can be open at standard mesh viewers, but the rendering effect may be different from the exact corresponding figure in the paper.
 
 
 
